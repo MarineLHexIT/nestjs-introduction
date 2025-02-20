@@ -12,7 +12,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async authenticate({ email, password }: AuthBody) {
+  async login({ email, password }: AuthBody) {
     const existingUser = await this.prisma.user.findUnique({
       where: { email },
     });
