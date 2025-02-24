@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { UserPayloadType } from 'src/auth/jwt.strategy';
 
 export type AuthBody = { email: string; password: string };
 
@@ -30,7 +31,14 @@ export class AuthService {
       throw new Error('Invalid password');
     }
 
-    const payload = { sub: existingUser.id, username: existingUser.email };
+    return this.authenticateUser(existingUser);
+  }
+
+  private authenticateUser(user: { id: string; email: string }) {
+    const payload: UserPayloadType = {
+      userId: user.id,
+      userEmail: user.email,
+    };
     return {
       accessToken: this.jwtService.sign(payload),
     };
