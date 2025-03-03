@@ -6,7 +6,11 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  getUsers() {
+  async getUsers() {
+
+    // Test Skeleton in the front
+    await new Promise((r) => setTimeout(r, 2000));
+
     return this.userService.getUsers();
   }
 
